@@ -2,6 +2,8 @@ import java.io.*; // Get the Input Output libraries
 import java.net.*; // Get the Java networking libraries
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 
 class JokeWorker extends Thread {
     // socket with connection to client
@@ -24,8 +26,25 @@ class JokeWorker extends Thread {
             try {
                 // get input from client
                 Request input = (Request)inputStream.readObject();
-                System.out.println(input.getMethod());
+                // get the data out of the request
+                String message = input.getMessage();
+                String userId = input.getUserId();
+                String mode = ServerState.getMode();
+                System.out.println(message);
+                System.out.println(userId);
 
+                // basic switch block
+                // wont scale well but for what were doing right now it works fine
+                switch(message) {
+                    case "postUser":
+                        ServerState.newUser(userId);
+                        outputStream.println(userId + "has been added to Server!");
+                        break;
+                    case "getContent":
+                        String ret = getContent(userId);
+                        outputStream.println(ret);
+                        break;
+                }
             } catch (IOException e) {
                 System.out.println("Server read error");
                 e.printStackTrace ();
@@ -37,6 +56,28 @@ class JokeWorker extends Thread {
         } catch (IOException e) {
             System.out.println(e);
         }
+    }
+
+    public String getContent(String userId) {
+        String mode = ServerState.getMode();
+        ArrayList<String> content = ServerState.getContent();
+        ArrayList<String> doneContent = ServerState.getUserStateByUserId(userId);
+        Random rand = new Random();
+        String ret;
+
+        // filter out content that has already been done
+        ArrayList<String> potentialContent = new ArrayList<String>();
+        content.forEach((cont) -> {
+            if(!doneContent.contains(cont)) {
+                potentialContent.add(cont);
+            }
+        });
+
+        int index = rand.nextInt(potentialContent.size());
+
+        ret = potentialContent.get(index);
+        ServerState.appendContentToUserState(userId, ret);
+        return ret;
     }
 
 
@@ -58,16 +99,32 @@ class ServerState {
     //var to hold state of mode
     private static String mode = "joke";
     // map of client state
-    // is mapped clientId to another hashmap of joke / proverb key to an array of the jokes / proverbs that client has already heard
+    // is mapped userId to another hashmap of joke / proverb key to an array of the jokes / proverbs that client has already heard
     // JSON structure equal to
     // {
-    //     "{clientId}": {
+    //     "{userId}": {
     //         "joke": [],
     //         "proverb": []
     //     }, 
     //     ...
     // }
-    private static HashMap<String, HashMap<String, ArrayList<String>>> clientState = new HashMap<String, HashMap<String, ArrayList<String>>>();
+    private static HashMap<String, HashMap<String, ArrayList<String>>> userState = new HashMap<String, HashMap<String, ArrayList<String>>>();
+
+    //jokes from https://www.reddit.com/r/AskReddit/comments/5z4b1u/whats_a_short_clean_joke_that_gets_a_laugh_every/
+    final static ArrayList<String> jokes = new ArrayList<String>(Arrays.asList(
+        "JA {user}: A woman walks into a library and asked if they had any books about paranoia. Librarian: They're right behind you!!",
+        "JB {user}: My wife told me I had to stop acting like a flamingo. So I had to put my foot down.",
+        "JC {user}: What's the difference between a good joke and a bad joke timing.",
+        "JD {user}: It's hard to explain puns to kleptomaniacs because they always take things literally."
+    ));
+
+    //proverbs from https://www.reddit.com/r/AskReddit/comments/2nyrld/hey_reddit_what_is_your_favorite_proverbsaying/
+    final static ArrayList<String> proverbs = new ArrayList<String>(Arrays.asList(
+        "PA {user}: Chop your own wood, it'll warm you twice.",
+        "PB {user}: Comparison is the thief of joy.",
+        "PC {user}: You can easily judge the character of a man by how he treats those who can do nothing for him.",
+        "PD {user}: I never learned from a man who agreed with me."
+    ));
 
     public static void toggleMode() {
         if(mode.equals("joke")) {
@@ -81,21 +138,33 @@ class ServerState {
         return mode;
     }
 
-    public static ArrayList<String> getClientStateByClientId(String clientId) {
-        if(clientState.containsKey(clientId)) {
-            return clientState.get(clientId).get(mode);
+    public static ArrayList<String> getContent() {
+        if(mode.equals("joke")) {
+            return jokes;
         } else {
-            clientState.put(clientId, new HashMap<String, ArrayList<String>>() {{ 
-                put("joke", new ArrayList<String>());
-                put("proverb", new ArrayList<String>());
-            }});
-
-            return clientState.get(clientId).get(mode);
+            return proverbs;
         }
     }
 
-    public static void appendClientState(String clientId) {
+    public static ArrayList<String> getUserStateByUserId(String userId) {
+        return userState.get(userId).get(mode);
+    }
 
+    public static void newUser(String userId) {
+        userState.put(userId, new HashMap<String, ArrayList<String>>() {{ 
+            put("joke", new ArrayList<String>());
+            put("proverb", new ArrayList<String>());
+        }});
+    }
+
+    public static void appendContentToUserState(String userId, String content) {
+        int contentSize = getContent().size();
+        if(userState.get(userId).get(mode).size() == contentSize - 1) {
+            userState.get(userId).get(mode).clear();
+        } else {
+            userState.get(userId).get(mode).add(content);
+        }
+        
     }
 }
 
@@ -200,12 +269,23 @@ class AdminLooper implements Runnable {
     }
 }
 
-class Request implements Serializable{
-    public String method = "GET";
-    public String endpoint = "/user";
-    public String userId = "qqqq";
+// basic request object to get what the server needs to the server
+class Request implements Serializable {
+    // message to tell the server what to do
+    public String message;
+    //user id to tell the server who is making the request
+    public String userId;
 
-    public String getMethod() {
-        return this.method;
+    public Request(String message, String userId) {
+        this.message = message;
+        this.userId = userId;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 }

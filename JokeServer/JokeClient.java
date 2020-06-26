@@ -3,8 +3,9 @@ import java.net.*; // Get the Java networking libraries
 import java.util.UUID;
 
 public class JokeClient {
+    public static String serverName;
     public static void main (String args[]) {
-        String serverName;
+        
         User user = new User(UUID.randomUUID());
         // check for cmd line arguments
         // if none default to localhost
@@ -17,30 +18,27 @@ public class JokeClient {
         System.out.println("Michael Crabtree's Joke Client, 1.8.\n");
         System.out.println("Using server: " + serverName + ", Port: 4545");
 
-        
-        // send input to server
-        sendInputToServer("get", user.getUserId(), serverName);
-
         //set up buffer for reading input
         BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
 
         try {
-            // var to hold user input
-            String userName;
             System.out.print("Enter your name: ");
             System.out.flush();
             // get user input from reader
-            userName = inputReader.readLine();
+            user.setUserName(inputReader.readLine());
+            //save user on server
+            postUser(user);
+            System.out.println("Hello " + user.getUserName() + "!");
             String input;
             do {
                 // output instruction for user
-                System.out.print("Enter a hostname or an IP address, (quit) to end: ");
+                System.out.print("Press enter to get a Joke or Proverb: ");
                 System.out.flush();
                 // get user input from reader
                 input = inputReader.readLine();
 
                 // send input to server
-                sendInputToServer("get", user.getUserId(), serverName);
+                getContent(user);
             } while (!input.equals("quit") || input != null); // exit if user input is 'quit' 
 
             System.out.println ("Cancelled by user request.");
@@ -50,11 +48,26 @@ public class JokeClient {
         }
     }
 
+    // save new user on the server
+    public static void postUser(User user) {
+        Request request = new Request("postUser", user.getUserName());
+        
+        sendInputToServer(request, serverName);
+    }
+
+    // get content from the server
+    // either joke or proverb, decided by state of server
+    public static void getContent(User user) {
+        Request request = new Request("getContent", user.getUserName());
+        
+        sendInputToServer(request, serverName);
+    }
+
     /*
      *   @param searchInput string to send to server to use for looking up Host IP / Name pairs
      *   @param address location of our server
     */
-    static void sendInputToServer (String method, UUID userId, String serverName) {
+    static void sendInputToServer (Request request, String serverName) {
         Socket socket;
         BufferedReader fromServer;
         ObjectOutputStream toServer;
@@ -67,7 +80,7 @@ public class JokeClient {
             // set up buffers to get and send data to server 
             fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             toServer = new ObjectOutputStream(socket.getOutputStream());
-            Request request = new Request();
+
             // Send machine name or IP address to server:
             toServer.writeObject(request);
             toServer.flush();
@@ -118,12 +131,23 @@ class User {
     }
 }
 
-class Request implements Serializable{
-    public String method = "GET";
-    public String endpoint = "/user";
-    public String userId = "qqqq";
+// basic request object to get what the server needs to the server
+class Request implements Serializable {
+    // message to tell the server what to do
+    public String message;
+    //user id to tell the server who is making the request
+    public String userId;
 
-    public String getMethod() {
-        return this.method;
+    public Request(String message, String userId) {
+        this.message = message;
+        this.userId = userId;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 }
