@@ -8,10 +8,11 @@ import java.util.Random;
 class JokeWorker extends Thread {
     // socket with connection to client
     Socket socket;
-
+    boolean isSecondary;
     //construct worker
-    public JokeWorker (Socket s) {
+    public JokeWorker (Socket s, boolean secondary) {
         socket = s;
+        isSecondary = secondary;
     } 
 
     public void run() {
@@ -38,11 +39,10 @@ class JokeWorker extends Thread {
                 switch(message) {
                     case "postUser":
                         ServerState.newUser(userId);
-                        outputStream.println(userId + "has been added to Server!");
                         break;
                     case "getContent":
                         String ret = getContent(userId);
-                        outputStream.println(ret);
+                        sendResponseToClient(ret, outputStream);
                         break;
                 }
             } catch (IOException e) {
@@ -56,6 +56,13 @@ class JokeWorker extends Thread {
         } catch (IOException e) {
             System.out.println(e);
         }
+    }
+
+    // output data back top client
+    public void sendResponseToClient(String response, PrintStream outputStream) {
+        if(isSecondary) response = "<S2> " + response;
+
+        outputStream.println(response);
     }
 
     public String getContent(String userId) {
@@ -147,6 +154,10 @@ class ServerState {
     }
 
     public static ArrayList<String> getUserStateByUserId(String userId) {
+        if(userState.get(userId) == null) {
+            newUser(userId);
+        }
+
         return userState.get(userId).get(mode);
     }
 
@@ -170,24 +181,30 @@ class ServerState {
 
 public class JokeServer {
 
-    public static void main(String a[]) throws IOException {
+    public static void main(String args[]) throws IOException {
         int maxQueueLength = 6;
         int port = 4545;
         Socket socket;
+        boolean secondary = false;
 
-        AdminLooper adminLooper = new AdminLooper(); // create a DIFFERENT thread
+        if (args.length > 0 && args[0].equals("secondary")) {
+            port = 4546;
+            secondary = true;          
+        }
+
+        AdminLooper adminLooper = new AdminLooper(secondary); // create a DIFFERENT thread
         Thread thread = new Thread(adminLooper);
         thread.start();  // ...and start it, waiting for administration input
 
         // construct server socket to set up connection with clients
         ServerSocket serverSocket = new ServerSocket(port, maxQueueLength);
 
-        System.out.println("Michael Crabtree's Joke server 1.8 starting up, listening at port 4545.\n");
+        System.out.println("Michael Crabtree's Joke server 1.8 starting up, listening at port " + port + ".\n");
         while (true) {
             // wait for the next client connection
             socket = serverSocket.accept(); 
             //construct the worker that handles the request from the client
-            new JokeWorker(socket).start(); 
+            new JokeWorker(socket, secondary).start();
         }
     }
 }
@@ -195,7 +212,7 @@ public class JokeServer {
 class AdminWorker extends Thread {
     // socket with connection to client
     Socket socket; 
-
+    
     //construct worker
     public AdminWorker(Socket s) {
         socket = s;
@@ -248,13 +265,22 @@ class AdminWorker extends Thread {
 
 class AdminLooper implements Runnable {
     public static boolean adminControlSwitch = true;
-  
+    public static boolean isSecondary;
+
+    public AdminLooper(boolean secondary) {
+        isSecondary = secondary;
+    }
+
     public void run() {
         System.out.println("In the admin looper thread");
         
         int maxQueueLength = 6; /* Number of requests for OpSys to queue */
         int port = 5050;  // We are listening at a different port for Admin clients
         Socket socket;
+
+        if (isSecondary) {
+            port = 5051;
+        }
 
         try{
             ServerSocket serverSocket = new ServerSocket(port, maxQueueLength);
