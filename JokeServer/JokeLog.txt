@@ -1,0 +1,116 @@
+λ java JokeClient localhost localhost
+Michael Crabtree's Joke Client, 1.8.
+//show connections
+Server one: localhost, port 4545
+Server two: localhost, port 4546
+Now communicating with: localhost, port 4545
+//input name
+Enter your name: Michael
+Hello Michael!
+
+//Jokes randomize and do not reapeat
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+JD Michael: It's hard to explain puns to kleptomaniacs because they always take things literally.
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+JB Michael: My wife told me I had to stop acting like a flamingo. So I had to put my foot down.
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+JA Michael: A woman walks into a library and asked if they had any books about paranoia. Librarian: They're right behind you!!
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+JC Michael: What's the difference between a good joke and a bad joke timing.
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+JD Michael: It's hard to explain puns to kleptomaniacs because they always take things literally.
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+JC Michael: What's the difference between a good joke and a bad joke timing.
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+JA Michael: A woman walks into a library and asked if they had any books about paranoia. Librarian: They're right behind you!!
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+JB Michael: My wife told me I had to stop acting like a flamingo. So I had to put my foot down.
+
+// Proverbs randomize and do not reapeat
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+PD Michael: I never learned from a man who agreed with me.
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+PA Michael: Chop your own wood, it'll warm you twice.
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+PB Michael: Comparison is the thief of joy.
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+PC Michael: You can easily judge the character of a man by how he treats those who can do nothing for him.
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+PC Michael: You can easily judge the character of a man by how he treats those who can do nothing for him.
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+PD Michael: I never learned from a man who agreed with me.
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+PB Michael: Comparison is the thief of joy.
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+PA Michael: Chop your own wood, it'll warm you twice.
+
+// can switch modes from admin and the state will remember what jokes haven't been told yet after switching back
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+JD Michael: It's hard to explain puns to kleptomaniacs because they always take things literally.
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+JB Michael: My wife told me I had to stop acting like a flamingo. So I had to put my foot down.
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+JC Michael: What's the difference between a good joke and a bad joke timing.
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+PC Michael: You can easily judge the character of a man by how he treats those who can do nothing for him.
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+PB Michael: Comparison is the thief of joy.
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+PA Michael: Chop your own wood, it'll warm you twice.
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+JA Michael: A woman walks into a library and asked if they had any books about paranoia. Librarian: They're right behind you!!
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+PD Michael: I never learned from a man who agreed with me.
+
+// Can switch servers and each server has its own state it keeps
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+JD Michael: It's hard to explain puns to kleptomaniacs because they always take things literally.
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+JC Michael: What's the difference between a good joke and a bad joke timing.
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+JA Michael: A woman walks into a library and asked if they had any books about paranoia. Librarian: They're right behind you!!
+Press enter to get a Joke or Proverb: <type 'quit' to exit> s
+Now communicating with: localhost, port 4546
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+<S2> JC Michael: What's the difference between a good joke and a bad joke timing.
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+<S2> JA Michael: A woman walks into a library and asked if they had any books about paranoia. Librarian: They're right behind you!!
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+<S2> JB Michael: My wife told me I had to stop acting like a flamingo. So I had to put my foot down.
+Press enter to get a Joke or Proverb: <type 'quit' to exit> s
+Now communicating with: localhost, port 4545
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+JB Michael: My wife told me I had to stop acting like a flamingo. So I had to put my foot down.
+Press enter to get a Joke or Proverb: <type 'quit' to exit> s
+Now communicating with: localhost, port 4546
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+<S2> JD Michael: It's hard to explain puns to kleptomaniacs because they always take things literally.
+
+// each server also keeps its own state of what mode its in
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+<S2> PB Michael: Comparison is the thief of joy.
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+<S2> PD Michael: I never learned from a man who agreed with me.
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+<S2> PC Michael: You can easily judge the character of a man by how he treats those who can do nothing for him.
+Press enter to get a Joke or Proverb: <type 'quit' to exit> s
+Now communicating with: localhost, port 4545
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+JB Michael: My wife told me I had to stop acting like a flamingo. So I had to put my foot down.
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+JD Michael: It's hard to explain puns to kleptomaniacs because they always take things literally.
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+JA Michael: A woman walks into a library and asked if they had any books about paranoia. Librarian: They're right behind you!!
+Press enter to get a Joke or Proverb: <type 'quit' to exit> s
+Now communicating with: localhost, port 4546
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+<S2> PA Michael: Chop your own wood, it'll warm you twice.
+Press enter to get a Joke or Proverb: <type 'quit' to exit> s
+Now communicating with: localhost, port 4545
+Press enter to get a Joke or Proverb: <type 'quit' to exit>
+JC Michael: What's the difference between a good joke and a bad joke timing.
+
+// can quit with 'quit'
+Press enter to get a Joke or Proverb: <type 'quit' to exit> quit
+
+Cancelled by user request.

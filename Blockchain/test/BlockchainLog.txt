@@ -1,0 +1,499 @@
+//PROCESS 0 START
+//PROCESS 0 START
+//PROCESS 0 START
+
+λ java -cp ".;gson-2.8.2.jar" Blockchain 0
+Michael Crabtree's BlockFramework control-c to quit.
+
+Using processID 0
+
+Our public key: Sun RSA public key, 1024 bits
+  params: null
+  modulus: 128686927205858826154514076447169716825912673195829037989159699317356406589567461334869491118140916522257899551978072581715322942716265138550238313988092247708514354069097225068994216299143525825966982108717282705354998297027937405001117684554743144673172645893660832946598979713212842746313357251711043258419
+  public exponent: 65537!
+
+Starting Key Server input thread using 4710
+Got Public key for Process 2: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCvSLY04ZR28/mq+Rdtu+Tq/VOLDIKI/dFWxpwOVd+5QUjkLqd4kOUqxKasjQ11KrBfCX8iWxpMqLMUW9fOR6P0icXrWqnBM2ziA1wdKtXJ0mvfaOxLGgrfbSqxs8uoUH05b5LoQkePFD29hxAyyb7BhZeQOspgO0Y89C+5cZcHpwIDAQAB
+
+Got Public key for Process 1: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCDxAQ73gAX57ThC8eaKnN4krX+RLzyUrDo3Z7xh28vmvMSL7U99V5h4j7qUFS0alL7/qmCWYCjLgz9M2lyihdBrTRTCmfJ2ywdKx+G6m5tQdOxF1EeKJDTcPWAI3fvRcXwWWglz2vDSRw382KQU//I4vIkrx/yKA+3oecpoEYOSQIDAQAB
+
+Got Public key for Process 0: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC3QZq726DdDADQR0pr0VJDTzMHl5v1W+8yQMNnT7JapXUT7XiRdxQoE4oqNP7wP0EOu3rP8kbm/SSNZ52QHKjzv5jj5SvJwL76Q2wflfD0bGbTtCSk3H3UDgbVmqymM8ZasWwheGphwTQjmPo1fR0ruE7FvLzc/k/FKK/aJaZIMwIDAQAB
+
+Starting the Unverified Block Server input thread using 4820
+Starting the blockchain server input thread using 4930
+Reading File BlockInput0.txt for blockchain input
+Putting Block 80526244-9cf4-41bf-99c5-ca55462f4d73 in priority queue:
+
+Putting Block 7347b280-f616-47a6-b8ab-dfab24fdd0ef in priority queue:
+
+Putting Block affccfb6-a2cb-424c-b63c-213bae117999 in priority queue:
+
+Putting Block 343e2213-1b66-4b27-a65a-9e30e1ff71d1 in priority queue:
+
+Putting Block a5f3ed17-96d7-4e5c-ae25-a843bbce7859 in priority queue:
+
+Putting Block b0aec045-32bd-4a4e-a819-efada7e42ce2 in priority queue:
+
+Putting Block 5b2e861a-306a-4c3d-bcbd-9632f10f0d36 in priority queue:
+
+Putting Block 96d1df8a-8589-446d-9522-c9a9ea305bf1 in priority queue:
+
+Putting Block ef0eb6dd-6820-4d58-a228-71de447740ea in priority queue:
+
+Putting Block 2378c611-bf32-4130-bf70-03f6c3f35d1e in priority queue:
+
+Putting Block 5ca6c178-af70-4d0e-b5a1-aacfb8c37e3c in priority queue:
+
+Putting Block 6c9bb4e1-4700-439d-beee-074f412a643d in priority queue:
+
+Starting the Block Verifier.
+
+Working on unverified Block: 80526244-9cf4-41bf-99c5-ca55462f4d73
+Block 80526244-9cf4-41bf-99c5-ca55462f4d73 solved by Process Number 2, adding to local ledger
+
+Working on unverified Block: 7347b280-f616-47a6-b8ab-dfab24fdd0ef
+Block 7347b280-f616-47a6-b8ab-dfab24fdd0ef solved by Process Number 1, adding to local ledger
+
+Working on unverified Block: affccfb6-a2cb-424c-b63c-213bae117999
+Block affccfb6-a2cb-424c-b63c-213bae117999 solved by Process Number 2, adding to local ledger
+
+Working on unverified Block: 343e2213-1b66-4b27-a65a-9e30e1ff71d1
+Block: 343e2213-1b66-4b27-a65a-9e30e1ff71d1has been solved by this process! Prepending to the blockchain:
+{
+  "blockId": "343e2213-1b66-4b27-a65a-9e30e1ff71d1",
+  "signedBlockId": "CpHjbdk8HcgOTj7C+9W6iX535Pr6H5YCE6z7maVK+CgPCBL5iC+SNbc3+prV6eiNwTtQP5NRfnIydvfQaYV76KcGesnvFTlo3XnLwc0U+vru6I/sR+UEO3fMZk+uZklKV00lEFGO6UECpd4wZHaf7HbCjTmLR0otFK1y9QI5yIQ\u003d",
+  "firstName": "Joe",
+  "lastName": "Blow",
+  "birthDate": "1996.03.07",
+  "ssn": "123-45-6888",
+  "diagnosis": "Smallpox",
+  "treatment": "BedRest",
+  "prescription": "Whiskey",
+  "randomSeed": "FIXA9MNEOO",
+  "hash": "00010208da3d88d497ea38a71f21aaf38bc8c902a17a266cb3561e46809e1c99",
+  "createdAtTimestamp": "2020-07-19.09:10:13.960.0",
+  "verifiedAtTimestamp": "2020-07-19.09:10:16.153",
+  "blockNumber": 4,
+  "creationProcessId": 0,
+  "verifyingProcessId": 0
+}
+Block 343e2213-1b66-4b27-a65a-9e30e1ff71d1 solved by Process Number 0, adding to local ledger
+
+Working on unverified Block: a5f3ed17-96d7-4e5c-ae25-a843bbce7859
+Block: a5f3ed17-96d7-4e5c-ae25-a843bbce7859has been solved by this process! Prepending to the blockchain:
+{
+  "blockId": "a5f3ed17-96d7-4e5c-ae25-a843bbce7859",
+  "signedBlockId": "C2fhQfBJThVtH50+ZajcPeTwUQnBZT7w1HE03kY0rCvfCe/+l3ODT3+TY/F9OHMXac63EcIw35nllhHRxBYn8hcpOIzylyAigpuXUtSsD/P5B98SPF9aQA0y+0ZJFTlWM4zW4VIWOKauHSCpnngSflPsgiK+pcpjzOq60yF3PgQ\u003d",
+  "firstName": "Wei",
+  "lastName": "Xu",
+  "birthDate": "1996.03.22",
+  "ssn": "123-456-333",
+  "diagnosis": "Shingles",
+  "treatment": "WaitForRelief",
+  "prescription": "Zovirax",
+  "randomSeed": "GRD3SEWS9U",
+  "hash": "000158c269afbbd1eb24436990c3351f2bfdbb855aa13c226cf864992b1d104e",
+  "createdAtTimestamp": "2020-07-19.09:10:14.018.1",
+  "verifiedAtTimestamp": "2020-07-19.09:10:16.191",
+  "blockNumber": 5,
+  "creationProcessId": 1,
+  "verifyingProcessId": 0
+}
+Block a5f3ed17-96d7-4e5c-ae25-a843bbce7859 solved by Process Number 0, adding to local ledger
+
+Working on unverified Block: b0aec045-32bd-4a4e-a819-efada7e42ce2
+Block: b0aec045-32bd-4a4e-a819-efada7e42ce2has been solved by this process! Prepending to the blockchain:
+{
+  "blockId": "b0aec045-32bd-4a4e-a819-efada7e42ce2",
+  "signedBlockId": "VkjGun8MYnWOpXFY5bclcR9fbNFGLfS5A2WVcbo5HC7YDfBK8yiz82CqILKcNH0Qq0crOCEz8DVwX/sqZEPXUQDDFcvaRCt9l9zQXT6iLQfHrH5afvOuo7xX4YtkCPCYnIaKbycNXLq6QRDRZ7o8dMCW0PnxvON7x/r/yVoj5T4\u003d",
+  "firstName": "Abraham",
+  "lastName": "Lincoln",
+  "birthDate": "1809.02.12",
+  "ssn": "444-45-6888",
+  "diagnosis": "GreviousWound",
+  "treatment": "Surgery",
+  "prescription": "Whiskey",
+  "randomSeed": "7LG58NPYVX",
+  "hash": "0001356c632bdd41c6af43b54a02133ef4edceb6fde4742b26f8a27155ad99a8",
+  "createdAtTimestamp": "2020-07-19.09:10:14.042.2",
+  "verifiedAtTimestamp": "2020-07-19.09:10:16.211",
+  "blockNumber": 6,
+  "creationProcessId": 2,
+  "verifyingProcessId": 0
+}
+Block b0aec045-32bd-4a4e-a819-efada7e42ce2 solved by Process Number 0, adding to local ledger
+
+Working on unverified Block: 5b2e861a-306a-4c3d-bcbd-9632f10f0d36
+Block: 5b2e861a-306a-4c3d-bcbd-9632f10f0d36has been solved by this process! Prepending to the blockchain:
+{
+  "blockId": "5b2e861a-306a-4c3d-bcbd-9632f10f0d36",
+  "signedBlockId": "IP/feW/lAghV5rCNZYkuQZWH4myhwPCVrTJLPEgIfjlqNh4PQ1si8mxcLW7xmE9r1CLki7Q5PHuNZiKZVMsUJU35LlqMD45g0zRQwvM5J2IWtuhcNUf+SPYF3lUcSU17RUO96m7bRbrnb0J37FEJKEl9DYuqJLT1ozVAtRXKdnA\u003d",
+  "firstName": "Julie",
+  "lastName": "Wilson",
+  "birthDate": "1996.03.07",
+  "ssn": "123-45-6999",
+  "diagnosis": "Insomnia",
+  "treatment": "Exercise",
+  "prescription": "HotPeppers",
+  "randomSeed": "1XH22D7DK2",
+  "hash": "0001b61a3034ab3c38d97042c5b4b40be779a59a8579e76a60f07189ab555573",
+  "createdAtTimestamp": "2020-07-19.09:10:14.063.0",
+  "verifiedAtTimestamp": "2020-07-19.09:10:16.618",
+  "blockNumber": 7,
+  "creationProcessId": 0,
+  "verifyingProcessId": 0
+}
+Working on unverified Block: 96d1df8a-8589-446d-9522-c9a9ea305bf1
+Block 5b2e861a-306a-4c3d-bcbd-9632f10f0d36 solved by Process Number 0, adding to local ledger
+
+Block 96d1df8a-8589-446d-9522-c9a9ea305bf1 solved by Process Number 2, adding to local ledger
+
+Working on unverified Block: ef0eb6dd-6820-4d58-a228-71de447740ea
+Block ef0eb6dd-6820-4d58-a228-71de447740ea solved by Process Number 1, adding to local ledger
+
+Working on unverified Block: 2378c611-bf32-4130-bf70-03f6c3f35d1e
+Block 2378c611-bf32-4130-bf70-03f6c3f35d1e solved by Process Number 2, adding to local ledger
+
+Working on unverified Block: 5ca6c178-af70-4d0e-b5a1-aacfb8c37e3c
+Working on unverified Block: 6c9bb4e1-4700-439d-beee-074f412a643d
+Block 5ca6c178-af70-4d0e-b5a1-aacfb8c37e3c solved by Process Number 1, adding to local ledger
+
+Block: 6c9bb4e1-4700-439d-beee-074f412a643dhas been solved by this process! Prepending to the blockchain:
+{
+  "blockId": "6c9bb4e1-4700-439d-beee-074f412a643d",
+  "signedBlockId": "NHSj3z7ZqCX3tjEbSCVAiUjuNCOhyVfbLIv3CNau7GT+rjdw80Mrtegr5X2GFtWgM+8Rbthrv+m1V7d05julfpcg9XiFFOAKudhk0koymsGvFxmANU3OA03FHWRC01zDuYF4zHF/E9DXuWzEwBCjZ0pAJ9TgRdN1Z5amcRa0VxA\u003d",
+  "firstName": "Joe",
+  "lastName": "DiMaggio",
+  "birthDate": "1914.11.25",
+  "ssn": "111-22-3333",
+  "diagnosis": "SoreKnees",
+  "treatment": "RestFromSports",
+  "prescription": "Aspirin",
+  "randomSeed": "34Z65XCF05",
+  "hash": "0001b70a317dcb3a9387fff975d1a0a8ee23920bced994cce288df81ee533620",
+  "createdAtTimestamp": "2020-07-19.09:10:14.247.2",
+  "verifiedAtTimestamp": "2020-07-19.09:10:17.273",
+  "blockNumber": 12,
+  "creationProcessId": 2,
+  "verifyingProcessId": 0
+}
+Block 6c9bb4e1-4700-439d-beee-074f412a643d solved by Process Number 0, adding to local ledger
+
+//PROCESS 0 END
+//PROCESS 0 END
+//PROCESS 0 END
+
+//PROCESS 1 START
+//PROCESS 1 START
+//PROCESS 1 START
+
+λ java -cp ".;gson-2.8.2.jar" Blockchain 1
+Michael Crabtree's BlockFramework control-c to quit.
+
+Using processID 1
+
+Our public key: Sun RSA public key, 1024 bits
+  params: null
+  modulus: 92529013910408024416422702219111865424890122692451937545006279038566145929691210447249162668251941354278089123066506305536962826671880247306573938389470720866020506999655925839192622823511868782361243665554561588774514188007488010004187827315676156176823033073563233502381608925263950410173181071405561024073
+  public exponent: 65537!
+
+Starting Key Server input thread using 4711
+Got Public key for Process 2: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCvSLY04ZR28/mq+Rdtu+Tq/VOLDIKI/dFWxpwOVd+5QUjkLqd4kOUqxKasjQ11KrBfCX8iWxpMqLMUW9fOR6P0icXrWqnBM2ziA1wdKtXJ0mvfaOxLGgrfbSqxs8uoUH05b5LoQkePFD29hxAyyb7BhZeQOspgO0Y89C+5cZcHpwIDAQAB
+
+Got Public key for Process 1: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCDxAQ73gAX57ThC8eaKnN4krX+RLzyUrDo3Z7xh28vmvMSL7U99V5h4j7qUFS0alL7/qmCWYCjLgz9M2lyihdBrTRTCmfJ2ywdKx+G6m5tQdOxF1EeKJDTcPWAI3fvRcXwWWglz2vDSRw382KQU//I4vIkrx/yKA+3oecpoEYOSQIDAQAB
+
+Got Public key for Process 0: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC3QZq726DdDADQR0pr0VJDTzMHl5v1W+8yQMNnT7JapXUT7XiRdxQoE4oqNP7wP0EOu3rP8kbm/SSNZ52QHKjzv5jj5SvJwL76Q2wflfD0bGbTtCSk3H3UDgbVmqymM8ZasWwheGphwTQjmPo1fR0ruE7FvLzc/k/FKK/aJaZIMwIDAQAB
+
+Starting the Unverified Block Server input thread using 4821
+Starting the blockchain server input thread using 4931
+Putting Block 80526244-9cf4-41bf-99c5-ca55462f4d73 in priority queue:
+
+Reading File BlockInput1.txt for blockchain input
+Putting Block 7347b280-f616-47a6-b8ab-dfab24fdd0ef in priority queue:
+
+Putting Block affccfb6-a2cb-424c-b63c-213bae117999 in priority queue:
+
+Putting Block 343e2213-1b66-4b27-a65a-9e30e1ff71d1 in priority queue:
+
+Putting Block a5f3ed17-96d7-4e5c-ae25-a843bbce7859 in priority queue:
+
+Putting Block b0aec045-32bd-4a4e-a819-efada7e42ce2 in priority queue:
+
+Putting Block 5b2e861a-306a-4c3d-bcbd-9632f10f0d36 in priority queue:
+
+Putting Block 96d1df8a-8589-446d-9522-c9a9ea305bf1 in priority queue:
+
+Putting Block ef0eb6dd-6820-4d58-a228-71de447740ea in priority queue:
+
+Putting Block 2378c611-bf32-4130-bf70-03f6c3f35d1e in priority queue:
+
+Putting Block 5ca6c178-af70-4d0e-b5a1-aacfb8c37e3c in priority queue:
+
+Putting Block 6c9bb4e1-4700-439d-beee-074f412a643d in priority queue:
+
+Starting the Block Verifier.
+
+Working on unverified Block: 80526244-9cf4-41bf-99c5-ca55462f4d73
+Working on unverified Block: 7347b280-f616-47a6-b8ab-dfab24fdd0ef
+Block 80526244-9cf4-41bf-99c5-ca55462f4d73 solved by Process Number 2, adding to local ledger
+
+Block: 7347b280-f616-47a6-b8ab-dfab24fdd0efhas been solved by this process! Prepending to the blockchain:
+{
+  "blockId": "7347b280-f616-47a6-b8ab-dfab24fdd0ef",
+  "signedBlockId": "CwvpIQq34E4ac2Aj4t2wy3viDFuupPZPcnQcYfKHD2L9mzjh9sYCoAaiuvHcFPzMsOxYUv/tIITlo4zXsEZo3VpdiQr1dOLyRHc2YaNBLWAuRaR3g8dGE8tJvBTUtflL7wutMZ8Q3AAaZGllcrPlQnvBqfVmCcfJZkNjFDONIIc\u003d",
+  "firstName": "Rita",
+  "lastName": "Vita",
+  "birthDate": "1992.01.31",
+  "ssn": "999-456-789",
+  "diagnosis": "ObessivePersonality",
+  "treatment": "TryToRelax",
+  "prescription": "Ibuprofen",
+  "randomSeed": "PZH0099QQP",
+  "hash": "0001d0e95428659df776f9b753a16fe5bd428ea456dea76b14ade6f71fb63245",
+  "createdAtTimestamp": "2020-07-19.09:10:13.912.1",
+  "verifiedAtTimestamp": "2020-07-19.09:10:15.782",
+  "blockNumber": 2,
+  "creationProcessId": 1,
+  "verifyingProcessId": 1
+}
+Working on unverified Block: affccfb6-a2cb-424c-b63c-213bae117999
+Block 7347b280-f616-47a6-b8ab-dfab24fdd0ef solved by Process Number 1, adding to local ledger
+
+Block affccfb6-a2cb-424c-b63c-213bae117999 solved by Process Number 2, adding to local ledger
+
+Working on unverified Block: 343e2213-1b66-4b27-a65a-9e30e1ff71d1
+Block 343e2213-1b66-4b27-a65a-9e30e1ff71d1 solved by Process Number 0, adding to local ledger
+
+Working on unverified Block: a5f3ed17-96d7-4e5c-ae25-a843bbce7859
+Block a5f3ed17-96d7-4e5c-ae25-a843bbce7859 solved by Process Number 0, adding to local ledger
+
+Working on unverified Block: b0aec045-32bd-4a4e-a819-efada7e42ce2
+Block b0aec045-32bd-4a4e-a819-efada7e42ce2 solved by Process Number 0, adding to local ledger
+
+Working on unverified Block: 5b2e861a-306a-4c3d-bcbd-9632f10f0d36
+Working on unverified Block: 96d1df8a-8589-446d-9522-c9a9ea305bf1
+Block 5b2e861a-306a-4c3d-bcbd-9632f10f0d36 solved by Process Number 0, adding to local ledger
+
+Block 96d1df8a-8589-446d-9522-c9a9ea305bf1 solved by Process Number 2, adding to local ledger
+
+Working on unverified Block: ef0eb6dd-6820-4d58-a228-71de447740ea
+Block: ef0eb6dd-6820-4d58-a228-71de447740eahas been solved by this process! Prepending to the blockchain:
+{
+  "blockId": "ef0eb6dd-6820-4d58-a228-71de447740ea",
+  "signedBlockId": "AEX6vj5IdkVUAdftW5HtUZ2t5Sm6j/ekNJMATxncuyAzep2cl6zBftQIyqyv3gVJ5EyHaG/4QXR2X7IenOQKywibjm95seEP4cqdHDHi7jm1mAwGY+bsq3l57lRIEl0gk0xa/gHXaH36wKtUC6y2KMVRBTvZVWuZdYexZcCXUhA\u003d",
+  "firstName": "John",
+  "lastName": "Kennedy",
+  "birthDate": "1917.05.29",
+  "ssn": "333-45-6999",
+  "diagnosis": "AddisonsDisease",
+  "treatment": "DrugTherapy",
+  "prescription": "Steroids",
+  "randomSeed": "N0N2M3A666",
+  "hash": "00013375cf53aca0898c13c12b3c36154b2c1161505ce145c089ce2a38b66d20",
+  "createdAtTimestamp": "2020-07-19.09:10:14.144.2",
+  "verifiedAtTimestamp": "2020-07-19.09:10:16.968",
+  "blockNumber": 9,
+  "creationProcessId": 2,
+  "verifyingProcessId": 1
+}
+Working on unverified Block: 2378c611-bf32-4130-bf70-03f6c3f35d1e
+Block ef0eb6dd-6820-4d58-a228-71de447740ea solved by Process Number 1, adding to local ledger
+
+Block 2378c611-bf32-4130-bf70-03f6c3f35d1e solved by Process Number 2, adding to local ledger
+
+Working on unverified Block: 5ca6c178-af70-4d0e-b5a1-aacfb8c37e3c
+Block: 5ca6c178-af70-4d0e-b5a1-aacfb8c37e3chas been solved by this process! Prepending to the blockchain:
+{
+  "blockId": "5ca6c178-af70-4d0e-b5a1-aacfb8c37e3c",
+  "signedBlockId": "E7pz0bJyvI62hMwUSXfYJX4gVWLUMfy7N+E1AtpjYNzJYL+9Cg+bhJ2TbKopsnX1wrJDmv/Wo4AQv54FEEX9ygPhaYTh317JHtWR3z5kTnkrrIAdbYygZLZXYAYTMEOo7RffOSE2/TAb3NcYcMhNeCDpnlsqobps2BUvCFmNvEU\u003d",
+  "firstName": "Bruce",
+  "lastName": "Lee",
+  "birthDate": "1940.11.27",
+  "ssn": "456-789-123",
+  "diagnosis": "SoreStomach",
+  "treatment": "LessCombat",
+  "prescription": "Vicodine",
+  "randomSeed": "C35S0QWETP",
+  "hash": "00010e578cb3b569f3861140899363ec2a5a1d8aed845471abc2622f5ce9fa16",
+  "createdAtTimestamp": "2020-07-19.09:10:14.223.1",
+  "verifiedAtTimestamp": "2020-07-19.09:10:17.100",
+  "blockNumber": 11,
+  "creationProcessId": 1,
+  "verifyingProcessId": 1
+}
+Working on unverified Block: 6c9bb4e1-4700-439d-beee-074f412a643d
+Block 5ca6c178-af70-4d0e-b5a1-aacfb8c37e3c solved by Process Number 1, adding to local ledger
+
+Block 6c9bb4e1-4700-439d-beee-074f412a643d solved by Process Number 0, adding to local ledger
+
+//PROCESS 1 END
+//PROCESS 1 END
+//PROCESS 1 END
+
+//PROCESS 2 START
+//PROCESS 2 START
+//PROCESS 2 START
+
+λ java -cp ".;gson-2.8.2.jar" Blockchain 2
+Michael Crabtree's BlockFramework control-c to quit.
+
+Using processID 2
+
+Our public key: Sun RSA public key, 1024 bits
+  params: null
+  modulus: 123088631966504284997624553139449876276171784022112947546952278282771209532807553630338563541594475550985847258536410501289153062268667433462561549149373857278611354418578193422102846763628622566698482256530338767645354370672246867146875311937495069476063127403981758436869644596160204766109487679486503094183
+  public exponent: 65537!
+
+Starting Key Server input thread using 4712
+Got Public key for Process 2: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCvSLY04ZR28/mq+Rdtu+Tq/VOLDIKI/dFWxpwOVd+5QUjkLqd4kOUqxKasjQ11KrBfCX8iWxpMqLMUW9fOR6P0icXrWqnBM2ziA1wdKtXJ0mvfaOxLGgrfbSqxs8uoUH05b5LoQkePFD29hxAyyb7BhZeQOspgO0Y89C+5cZcHpwIDAQAB
+
+Got Public key for Process 1: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCDxAQ73gAX57ThC8eaKnN4krX+RLzyUrDo3Z7xh28vmvMSL7U99V5h4j7qUFS0alL7/qmCWYCjLgz9M2lyihdBrTRTCmfJ2ywdKx+G6m5tQdOxF1EeKJDTcPWAI3fvRcXwWWglz2vDSRw382KQU//I4vIkrx/yKA+3oecpoEYOSQIDAQAB
+
+Got Public key for Process 0: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC3QZq726DdDADQR0pr0VJDTzMHl5v1W+8yQMNnT7JapXUT7XiRdxQoE4oqNP7wP0EOu3rP8kbm/SSNZ52QHKjzv5jj5SvJwL76Q2wflfD0bGbTtCSk3H3UDgbVmqymM8ZasWwheGphwTQjmPo1fR0ruE7FvLzc/k/FKK/aJaZIMwIDAQAB
+
+Starting the Unverified Block Server input thread using 4822
+Starting the blockchain server input thread using 4932
+Putting Block 80526244-9cf4-41bf-99c5-ca55462f4d73 in priority queue:
+
+Reading File BlockInput2.txt for blockchain input
+Putting Block 7347b280-f616-47a6-b8ab-dfab24fdd0ef in priority queue:
+
+Putting Block affccfb6-a2cb-424c-b63c-213bae117999 in priority queue:
+
+Putting Block 343e2213-1b66-4b27-a65a-9e30e1ff71d1 in priority queue:
+
+Putting Block a5f3ed17-96d7-4e5c-ae25-a843bbce7859 in priority queue:
+
+Putting Block b0aec045-32bd-4a4e-a819-efada7e42ce2 in priority queue:
+
+Putting Block 5b2e861a-306a-4c3d-bcbd-9632f10f0d36 in priority queue:
+
+Putting Block 96d1df8a-8589-446d-9522-c9a9ea305bf1 in priority queue:
+
+Putting Block ef0eb6dd-6820-4d58-a228-71de447740ea in priority queue:
+
+Putting Block 2378c611-bf32-4130-bf70-03f6c3f35d1e in priority queue:
+
+Putting Block 5ca6c178-af70-4d0e-b5a1-aacfb8c37e3c in priority queue:
+
+Putting Block 6c9bb4e1-4700-439d-beee-074f412a643d in priority queue:
+
+Starting the Block Verifier.
+
+Working on unverified Block: 80526244-9cf4-41bf-99c5-ca55462f4d73
+Block: 80526244-9cf4-41bf-99c5-ca55462f4d73has been solved by this process! Prepending to the blockchain:
+{
+  "blockId": "80526244-9cf4-41bf-99c5-ca55462f4d73",
+  "signedBlockId": "Fiv/BKgb1gqROh2GJm7v+OuPdlOIYXA0CLZH/zx8rwJwOFCTY8PNo49W3EyVLQ/KXw37rUILcMrU8LaQYApurYoZKM1uB5Y+WWIHVqNn2t3O8GO6Gmryx+pRoMjt+hK0xugsDWHHrc+uwHSw8fhCqki4j32KQIN+RgUQFpIoMsw\u003d",
+  "firstName": "John",
+  "lastName": "Smith",
+  "birthDate": "1996.03.07",
+  "ssn": "123-45-6789",
+  "diagnosis": "Chickenpox",
+  "treatment": "BedRest",
+  "prescription": "aspirin",
+  "randomSeed": "6MBC3V17PT",
+  "hash": "000156c73276c0db5f1340418c037e945290b314420e12e1c0de50dc6ba402c9",
+  "createdAtTimestamp": "2020-07-19.09:10:13.854.0",
+  "verifiedAtTimestamp": "2020-07-19.09:10:15.529",
+  "blockNumber": 1,
+  "creationProcessId": 0,
+  "verifyingProcessId": 2
+}
+Working on unverified Block: 7347b280-f616-47a6-b8ab-dfab24fdd0ef
+Block 80526244-9cf4-41bf-99c5-ca55462f4d73 solved by Process Number 2, adding to local ledger
+
+Block 7347b280-f616-47a6-b8ab-dfab24fdd0ef solved by Process Number 1, adding to local ledger
+
+Working on unverified Block: affccfb6-a2cb-424c-b63c-213bae117999
+Block: affccfb6-a2cb-424c-b63c-213bae117999has been solved by this process! Prepending to the blockchain:
+{
+  "blockId": "affccfb6-a2cb-424c-b63c-213bae117999",
+  "signedBlockId": "ivMFFcbU269BjDjpXDmXvs2tHQCgsT8U0Ex3VNPUpS4wS7gI6mBBamFBEzgzVfe5dU2JJjuIxeFZBpoCFxG4lKY+XZINzhMRSmFY5qpF9qh3uOzBveudAr23AT6fJuNZHjFPGYFpLhs2xIw+ju04pklazEWiyq+uWv7cYfdI2UE\u003d",
+  "firstName": "Helen",
+  "lastName": "Keller",
+  "birthDate": "1880.06.27",
+  "ssn": "666-45-6789",
+  "diagnosis": "Arthritis",
+  "treatment": "WarmCloths",
+  "prescription": "Aspirin",
+  "randomSeed": "ZF03R4CG8F",
+  "hash": "0001868fac291ea579a8e21e3cd6792247939cb5ad90bc553258f304cddad0c0",
+  "createdAtTimestamp": "2020-07-19.09:10:13.936.2",
+  "verifiedAtTimestamp": "2020-07-19.09:10:16.061",
+  "blockNumber": 3,
+  "creationProcessId": 2,
+  "verifyingProcessId": 2
+}
+Working on unverified Block: 343e2213-1b66-4b27-a65a-9e30e1ff71d1
+Block affccfb6-a2cb-424c-b63c-213bae117999 solved by Process Number 2, adding to local ledger
+
+Block 343e2213-1b66-4b27-a65a-9e30e1ff71d1 solved by Process Number 0, adding to local ledger
+
+Working on unverified Block: a5f3ed17-96d7-4e5c-ae25-a843bbce7859
+Block a5f3ed17-96d7-4e5c-ae25-a843bbce7859 solved by Process Number 0, adding to local ledger
+
+Working on unverified Block: b0aec045-32bd-4a4e-a819-efada7e42ce2
+Block b0aec045-32bd-4a4e-a819-efada7e42ce2 solved by Process Number 0, adding to local ledger
+
+Working on unverified Block: 5b2e861a-306a-4c3d-bcbd-9632f10f0d36
+Block 5b2e861a-306a-4c3d-bcbd-9632f10f0d36 solved by Process Number 0, adding to local ledger
+
+Working on unverified Block: 96d1df8a-8589-446d-9522-c9a9ea305bf1
+Block: 96d1df8a-8589-446d-9522-c9a9ea305bf1has been solved by this process! Prepending to the blockchain:
+{
+  "blockId": "96d1df8a-8589-446d-9522-c9a9ea305bf1",
+  "signedBlockId": "gTDYkOKcSvvHOja1dcyfcpnJDOywFGt47l4tWKJKhTnwIRm6by4o/5h8w1psPD2do9V0eKqa0H+lpo5WlEgiMt+CRc0ApzWBkiD3I4uyfe8rJqFAYJtGk7vx06bxglDChs+kXrjnfsYk8fLDNWn6KEXTv2TU/6/FaEEYrc405Pg\u003d",
+  "firstName": "Sally",
+  "lastName": "McCutty",
+  "birthDate": "1970.01.01",
+  "ssn": "123-456-999",
+  "diagnosis": "Migraine",
+  "treatment": "IcePack",
+  "prescription": "Almotriptan",
+  "randomSeed": "8VVZ4JXWGF",
+  "hash": "0001c6d71f57bd49c63deefae85cbf7052e0da0e77ed222020fe0a8a0ffe74be",
+  "createdAtTimestamp": "2020-07-19.09:10:14.120.1",
+  "verifiedAtTimestamp": "2020-07-19.09:10:16.844",
+  "blockNumber": 8,
+  "creationProcessId": 1,
+  "verifyingProcessId": 2
+}
+Working on unverified Block: ef0eb6dd-6820-4d58-a228-71de447740ea
+Block 96d1df8a-8589-446d-9522-c9a9ea305bf1 solved by Process Number 2, adding to local ledger
+
+Working on unverified Block: 2378c611-bf32-4130-bf70-03f6c3f35d1e
+Block ef0eb6dd-6820-4d58-a228-71de447740ea solved by Process Number 1, adding to local ledger
+
+Block: 2378c611-bf32-4130-bf70-03f6c3f35d1ehas been solved by this process! Prepending to the blockchain:
+{
+  "blockId": "2378c611-bf32-4130-bf70-03f6c3f35d1e",
+  "signedBlockId": "iLWZeutEfKdvXRyPjkn23sJ9KjweNcVUiJ4GIAf1GILr38HEVhCdFRV8PahnutinYTWf2Lx5No+85T5+UvxfVsPISdqcqemaXVFVzwK8R+eXeSgy/MG/S+QJPENjvFNfvTIMi0gIz1pGZJyWUD7/+T1H+HTSKCfmwco/hoA1H/4\u003d",
+  "firstName": "Wayne",
+  "lastName": "Blaine",
+  "birthDate": "1942.07.07",
+  "ssn": "123-45-6777",
+  "diagnosis": "Measles",
+  "treatment": "WaitToGetBetter",
+  "prescription": "CodLiverOil",
+  "randomSeed": "8D3RIK4H1A",
+  "hash": "00015d75d52517095d682b3577b8fa527ba8e6b62888945b076faa1f45d55f30",
+  "createdAtTimestamp": "2020-07-19.09:10:14.167.0",
+  "verifiedAtTimestamp": "2020-07-19.09:10:17.034",
+  "blockNumber": 10,
+  "creationProcessId": 0,
+  "verifyingProcessId": 2
+}
+Working on unverified Block: 5ca6c178-af70-4d0e-b5a1-aacfb8c37e3c
+Block 2378c611-bf32-4130-bf70-03f6c3f35d1e solved by Process Number 2, adding to local ledger
+
+Working on unverified Block: 6c9bb4e1-4700-439d-beee-074f412a643d
+Block 5ca6c178-af70-4d0e-b5a1-aacfb8c37e3c solved by Process Number 1, adding to local ledger
+
+Block 6c9bb4e1-4700-439d-beee-074f412a643d solved by Process Number 0, adding to local ledger
+
+//PROCESS 2 END
+//PROCESS 2 END
+//PROCESS 2 END
+
+

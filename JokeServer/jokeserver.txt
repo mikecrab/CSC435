@@ -1,0 +1,855 @@
+import java.io.*;
+import java.net.*;
+import java.util.UUID;
+
+/*--------------------------------------------------------
+
+1. Michael Crabtree / 6/28/20:
+
+2. java version "14.0.1" 2020-04-14
+
+3.: To compile run cmd lines
+
+> javac JokeServer.java
+> javac JokeClient.java
+> javac JokeClientAdmin.java
+
+I added extra classes but I put them in all the java files that need them
+You shouldn't have to run in that order but thats the only order I confirmed to work
+
+4. How to run:
+
+> java JokeServer
+run server on primary port 4545
+
+> java JokeServer <secondary>
+If the literal string "secondary" is inputted as argument the server will run on the secondary port 4546
+
+> java JokeClient
+Run JokeClient and default the server to connect to to localhost on port 4545
+
+> java JokeClient <primaryServerName>
+Run JokeClient and with the server to connect to being the input <primaryServerName> on port 4545
+
+> java JokeClient <primaryServerName> <secondaryServerName>
+Run JokeClient and with the primary server to connect to being the input <primaryServerName> on port 4545
+And the secondary server being the input <secondaryServerName> on port 4546
+
+> java JokeClientAdmin
+Run JokeClientAdmin and default the server to connect to to localhost on port 5050
+
+> java JokeClientAdmin <primaryServerName>
+Run JokeClientAdmin and with the server to connect to being the input <primaryServerName> on port 5050
+
+> java JokeClientAdmin <primaryServerName> <secondaryServerName>
+Run JokeClientAdmin and with the primary server to connect to being the input <primaryServerName> on port 5050
+And the secondary server being the input <secondaryServerName> on port 5051
+
+
+5. File needed to run
+
+ Required
+ a. JokeServer.java
+ b. JokeClient.java
+
+ Optional to switch modes between Joke and Proverb
+ JokeClientAdmin.java
+
+----------------------------------------------------------*/
+public class JokeClient {
+    public static Server currentServer;
+    public static Server primaryServer;
+    public static Server secondaryServer;
+    public static void main (String args[]) {
+        String primaryServerName;
+        String secondaryServerName = null;
+    
+        User user = new User(UUID.randomUUID());
+        // check for cmd line arguments
+        // if none default to localhost
+        if (args.length < 1) {
+            primaryServerName = "localhost";
+        } else { // if cmd line arg exists, use it for server name
+            primaryServerName = args[0];
+            if(args.length == 2) secondaryServerName = args[1];
+        }
+        
+        //set primary server
+        primaryServer = new Server(primaryServerName, 4545);
+
+        //current server defaults to primary
+        currentServer = primaryServer;
+        
+        System.out.println("Michael Crabtree's Joke Client, 1.8.\n");
+        System.out.println("Server one: " + primaryServer.getName() + ", port " + primaryServer.getPort());
+
+        //if second server was inputted set it
+        if(secondaryServerName != null) {
+            secondaryServer = new Server(secondaryServerName, 4546);
+            System.out.println("Server two: " + secondaryServer.getName() + ", port " + secondaryServer.getPort());
+        }
+
+        System.out.println("Now communicating with: " + currentServer.getName() + ", port " + currentServer.getPort());
+        //set up buffer for reading input
+        BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
+
+        try {
+            System.out.print("Enter your name: ");
+            System.out.flush();
+            // get user input from reader
+            user.setUserName(inputReader.readLine());
+            //save user on server
+            postUser(user);
+            System.out.println("Hello " + user.getUserName() + "!");
+            String input;
+            //loop infinitely until quit input is entered
+            while(true) {
+                // output instruction for user
+                System.out.print("Press enter to get a Joke or Proverb: <type 'quit' to exit> ");
+                System.out.flush();
+                // get user input from reader
+                input = inputReader.readLine();
+                //immediately leave loop on quit
+                if(input == null || input.equals("quit")) break;
+                //toggle server if there is a second server and the command is "s"
+                if(secondaryServerName != null && input.equals("s")) {
+                    toggleServer();
+                } else { //else just get the content from the server
+                    // send input to server
+                    getContent(user);
+                }
+            }
+
+            System.out.println ("\nCancelled by user request.");
+        } catch (IOException e) {
+            //print error
+            e.printStackTrace();
+        }
+    }
+
+    // save new user on the server
+    public static void postUser(User user) {
+        Request request = new Request("postUser", user.getUserName());
+        sendInputToServer(request);
+    }
+
+    // get content from the server
+    // either joke or proverb, decided by state of server
+    public static void getContent(User user) {
+        Request request = new Request("getContent", user.getUserName());
+        String result;
+        result = sendInputToServer(request);
+
+        // replace placeholder with actual user name
+        if(result.contains("{user}")) {
+            result = result.replace("{user}", user.getUserName());
+        }
+        System.out.println(result);
+    }
+
+    // change to the other server name
+    public static void toggleServer() {
+        if(currentServer == primaryServer) {
+            currentServer = secondaryServer;
+            System.out.println("Now communicating with: " + currentServer.getName() + ", port " + currentServer.getPort());
+        } else {
+            currentServer = primaryServer;
+            System.out.println("Now communicating with: " + currentServer.getName() + ", port " + currentServer.getPort());
+        }
+    }
+
+    /*
+     *   @param request object with data for server
+    */
+    static String sendInputToServer (Request request) {
+        Socket socket;
+        BufferedReader fromServer;
+        ObjectOutputStream toServer;
+        String result;
+
+        try{
+            //open use current server for socket, either primary or secondary
+            socket = new Socket(currentServer.getName(), currentServer.getPort());
+
+            // set up buffers to get and send data to server 
+            fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            toServer = new ObjectOutputStream(socket.getOutputStream());
+
+            // send request to server
+            toServer.writeObject(request);
+            toServer.flush();
+
+            //get result from server
+            result = fromServer.readLine();
+            // close socket after done with getting input
+            socket.close();
+        } catch (IOException e) {
+            result = "Socket error.";
+            e.printStackTrace();
+        }
+        return result;
+    }
+}
+
+// class to store data on user
+class User {
+    //store username and userId
+    //only storing userName on client to modify jokes after they are returned
+    private String userName;
+    //will also store userId on server to get user state
+    private UUID userId;
+
+    //set uuid on construct
+    public User(UUID userId) {
+        this.userId = userId;
+    }
+
+    //get userId
+    public UUID getUserId() {
+        return this.userId;
+    }
+
+    //get username
+    public String getUserName() {
+        return userName;
+    }
+
+    //set username
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+}
+
+// class to store server data to make it easy to switch servers
+class Server {
+    // server name
+    private String name;
+    // server port number
+    private Integer port;
+
+    //set uuid on construct
+    public Server(String name, Integer port) {
+        this.name = name;
+        this.port = port;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Integer getPort() {
+        return port;
+    }
+}
+
+// basic request object to get what the server needs to the server
+class Request implements Serializable {
+    // message to tell the server what to do
+    public String message;
+    //user id to tell the server who is making the request
+    public String userId;
+
+    public Request(String message, String userId) {
+        this.message = message;
+        this.userId = userId;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+}
+
+import java.io.*;
+import java.net.*;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
+
+/*--------------------------------------------------------
+
+1. Michael Crabtree / 6/28/20:
+
+2. java version "14.0.1" 2020-04-14
+
+3.: To compile run cmd lines
+
+> javac JokeServer.java
+> javac JokeClient.java
+> javac JokeClientAdmin.java
+
+I added extra classes but I put them in all the java files that need them
+You shouldn't have to run in that order but thats the only order I confirmed to work
+
+4. How to run:
+
+> java JokeServer
+run server on primary port 4545
+
+> java JokeServer <secondary>
+If the literal string "secondary" is inputted as argument the server will run on the secondary port 4546
+
+> java JokeClient
+Run JokeClient and default the server to connect to to localhost on port 4545
+
+> java JokeClient <primaryServerName>
+Run JokeClient and with the server to connect to being the input <primaryServerName> on port 4545
+
+> java JokeClient <primaryServerName> <secondaryServerName>
+Run JokeClient and with the primary server to connect to being the input <primaryServerName> on port 4545
+And the secondary server being the input <secondaryServerName> on port 4546
+
+> java JokeClientAdmin
+Run JokeClientAdmin and default the server to connect to to localhost on port 5050
+
+> java JokeClientAdmin <primaryServerName>
+Run JokeClientAdmin and with the server to connect to being the input <primaryServerName> on port 5050
+
+> java JokeClientAdmin <primaryServerName> <secondaryServerName>
+Run JokeClientAdmin and with the primary server to connect to being the input <primaryServerName> on port 5050
+And the secondary server being the input <secondaryServerName> on port 5051
+
+
+5. File needed to run
+
+ Required
+ a. JokeServer.java
+ b. JokeClient.java
+
+ Optional to switch modes between Joke and Proverb
+ JokeClientAdmin.java
+
+----------------------------------------------------------*/
+class JokeWorker extends Thread {
+    // socket with connection to client
+    Socket socket;
+    boolean isSecondary;
+    //construct worker
+    public JokeWorker (Socket s, boolean secondary) {
+        socket = s;
+        isSecondary = secondary;
+    } 
+
+    public void run() {
+        // init stream vars for input/output
+        PrintStream outputStream = null;
+        ObjectInputStream inputStream = null;
+
+        try {
+            inputStream =  new ObjectInputStream(socket.getInputStream());
+            outputStream = new PrintStream(socket.getOutputStream());
+
+            try {
+                // get input from client
+                Request input = (Request)inputStream.readObject();
+                // get the data out of the request
+                String message = input.getMessage();
+                String userId = input.getUserId();
+
+                // basic switch block based on request message
+                // wont scale well but for what were doing right now it works fine
+                switch(message) {
+                    case "postUser":
+                        ServerState.newUser(userId);
+                        break;
+                    case "getContent":
+                        String ret = getContent(userId);
+                        sendResponseToClient(ret, outputStream);
+                        break;
+                }
+            } catch (IOException e) {
+                System.out.println("Server read error");
+                e.printStackTrace ();
+            } catch (ClassNotFoundException e){
+                System.out.println("Server read error");
+                e.printStackTrace ();
+            }
+            socket.close();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+
+    // output data back top client
+    public void sendResponseToClient(String response, PrintStream outputStream) {
+        if(isSecondary) response = "<S2> " + response;
+
+        outputStream.println(response);
+    }
+
+    public String getContent(String userId) {
+        ArrayList<String> content = ServerState.getContent();
+        // jokes/proverbs that have already been seen by this user
+        ArrayList<String> doneContent = ServerState.getUserStateByUserId(userId);
+        Random rand = new Random();
+        String ret;
+
+        // filter out content that has already been done
+        // not the best solution because it is duplicating the joke/proverb data  in user state
+        ArrayList<String> potentialContent = new ArrayList<String>();
+        content.forEach((cont) -> {
+            //if content has not been seen already, add it to potential content
+            if(!doneContent.contains(cont)) {
+                potentialContent.add(cont);
+            }
+        });
+
+        // get random index of potential content
+        int index = rand.nextInt(potentialContent.size());
+
+        // get and return that index of content
+        ret = potentialContent.get(index);
+        ServerState.appendContentToUserState(userId, ret);
+        return ret;
+    }
+
+
+    // Not interesting to us:
+    static String toText (byte ip[]) { /* Make portable for 128 bit format */
+        StringBuffer result = new StringBuffer ();
+        for (int i = 0; i < ip.length; ++ i) {
+            if (i > 0) {
+                result.append (".");
+            }
+            result.append (0xff & ip[i]);
+        }
+
+        return result.toString ();
+    }
+}
+
+class ServerState {
+    //var to hold state of mode
+    private static String mode = "joke";
+    // map of client state
+    // is mapped userId to another hashmap of joke / proverb key to an array of the jokes / proverbs that client has already heard
+    // JSON structure equal to
+    // {
+    //     "{userId}": {
+    //         "joke": [],
+    //         "proverb": []
+    //     }, 
+    //     ...
+    // }
+    private static HashMap<String, HashMap<String, ArrayList<String>>> userState = new HashMap<String, HashMap<String, ArrayList<String>>>();
+
+    //jokes from https://www.reddit.com/r/AskReddit/comments/5z4b1u/whats_a_short_clean_joke_that_gets_a_laugh_every/
+    final static ArrayList<String> jokes = new ArrayList<String>(Arrays.asList(
+        "JA {user}: A woman walks into a library and asked if they had any books about paranoia. Librarian: They're right behind you!!",
+        "JB {user}: My wife told me I had to stop acting like a flamingo. So I had to put my foot down.",
+        "JC {user}: What's the difference between a good joke and a bad joke timing.",
+        "JD {user}: It's hard to explain puns to kleptomaniacs because they always take things literally."
+    ));
+
+    //proverbs from https://www.reddit.com/r/AskReddit/comments/2nyrld/hey_reddit_what_is_your_favorite_proverbsaying/
+    final static ArrayList<String> proverbs = new ArrayList<String>(Arrays.asList(
+        "PA {user}: Chop your own wood, it'll warm you twice.",
+        "PB {user}: Comparison is the thief of joy.",
+        "PC {user}: You can easily judge the character of a man by how he treats those who can do nothing for him.",
+        "PD {user}: I never learned from a man who agreed with me."
+    ));
+
+    //change mode of state
+    public static void toggleMode() {
+        if(mode.equals("joke")) {
+            mode = "proverb";
+        } else {
+            mode = "joke";
+        }
+    }
+
+    public static String getMode() {
+        return mode;
+    }
+
+    //return jokes or proverbs based on current mode
+    public static ArrayList<String> getContent() {
+        if(mode.equals("joke")) {
+            return jokes;
+        } else {
+            return proverbs;
+        }
+    }
+
+    // get user state
+    public static ArrayList<String> getUserStateByUserId(String userId) {
+        // if user doesnt exist, add them
+        if(userState.get(userId) == null) {
+            newUser(userId);
+        }
+
+        //return user state based on current mode
+        return userState.get(userId).get(mode);
+    }
+
+    // add a new user to state and init joke/proverb state array lists
+    public static void newUser(String userId) {
+        userState.put(userId, new HashMap<String, ArrayList<String>>() {{ 
+            put("joke", new ArrayList<String>());
+            put("proverb", new ArrayList<String>());
+        }});
+    }
+
+    // append to state when a joke/proverb has been seen
+    public static void appendContentToUserState(String userId, String content) {
+        // get content size to make this fucntion scalable
+        int contentSize = getContent().size();
+        //if the last joke/proverb is to be added, instead clear the state
+        if(userState.get(userId).get(mode).size() == contentSize - 1) {
+            userState.get(userId).get(mode).clear();
+        } else { 
+            //append joke/proverb to state
+            userState.get(userId).get(mode).add(content);
+        }
+        
+    }
+}
+
+public class JokeServer {
+
+    public static void main(String args[]) throws IOException {
+        int maxQueueLength = 6;
+        int port = 4545;
+        Socket socket;
+        boolean secondary = false;
+
+        //set server to secondary based on cmd line args
+        if (args.length > 0 && args[0].equals("secondary")) {
+            port = 4546;
+            secondary = true;          
+        }
+
+        AdminLooper adminLooper = new AdminLooper(secondary); // create a DIFFERENT thread
+        Thread thread = new Thread(adminLooper);
+        thread.start();  // ...and start it, waiting for administration input
+
+        // construct server socket to set up connection with clients
+        ServerSocket serverSocket = new ServerSocket(port, maxQueueLength);
+
+        System.out.println("Michael Crabtree's Joke server 1.8 starting up, listening at port " + port + ".\n");
+        while (true) {
+            // wait for the next client connection
+            socket = serverSocket.accept(); 
+            //construct the worker that handles the request from the client
+            new JokeWorker(socket, secondary).start();
+        }
+    }
+}
+
+class AdminWorker extends Thread {
+    // socket with connection to client
+    Socket socket; 
+    boolean isSecondary;
+
+    //construct worker
+    public AdminWorker(Socket s, boolean secondary) {
+        socket = s;
+        isSecondary = secondary;
+    } 
+
+    public void run() {
+        // init stream vars for input/output
+        PrintStream outputStream = null;
+        BufferedReader inputStream = null;
+
+        try {
+            inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            outputStream = new PrintStream(socket.getOutputStream());
+            
+            try {
+                String method;
+                String output;
+                // get request method of client
+                method = inputStream.readLine();
+
+                if(method.equals("GET")) {
+                    output = "Server is currently in " + ServerState.getMode() + " mode";
+
+                    //if secondary server prefix output with <s2>
+                    if(isSecondary) output = "<S2> " + output;
+
+                    outputStream.println(output);
+                } else if(method.equals("PUT")) {
+                    //chage mode
+                    ServerState.toggleMode();
+                    //output that the mode has changed
+                    output = "Server has been changed to " + ServerState.getMode() + " mode";
+                    //if secondary server prefix output with <s2>
+                    if(isSecondary) output = "<S2> " + output;
+                    outputStream.println(output);
+                }
+            } catch (IOException e) {
+                System.out.println("Server read error");
+                e.printStackTrace ();
+            }
+            socket.close();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+
+    // Not interesting to us:
+    static String toText (byte ip[]) { /* Make portable for 128 bit format */
+        StringBuffer result = new StringBuffer ();
+        for (int i = 0; i < ip.length; ++ i) {
+            if (i > 0) {
+                result.append (".");
+            }
+            result.append (0xff & ip[i]);
+        }
+
+        return result.toString ();
+    }
+}
+
+
+class AdminLooper implements Runnable {
+    public static boolean adminControlSwitch = true;
+    public static boolean isSecondary;
+
+    public AdminLooper(boolean secondary) {
+        isSecondary = secondary;
+    }
+
+    public void run() {
+        System.out.println("In the admin looper thread");
+        
+        int maxQueueLength = 6; /* Number of requests for OpSys to queue */
+        int port = 5050;  // We are listening at a different port for Admin clients
+        Socket socket;
+
+        //change port if secondary server
+        if (isSecondary) {
+            port = 5051;
+        }
+
+        try{
+            ServerSocket serverSocket = new ServerSocket(port, maxQueueLength);
+            while (adminControlSwitch) {
+                // await next connection to admin port
+                socket = serverSocket.accept();
+                new AdminWorker(socket, isSecondary).start();
+            }
+        } catch (IOException ioe) {
+            System.out.println(ioe);
+        }
+    }
+}
+
+// basic request object to get what the server needs to the server
+class Request implements Serializable {
+    // message to tell the server what to do
+    public String message;
+    //user id to tell the server who is making the request
+    public String userId;
+
+    public Request(String message, String userId) {
+        this.message = message;
+        this.userId = userId;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+}
+
+import java.io.*;
+import java.net.*;
+
+/*--------------------------------------------------------
+
+1. Michael Crabtree / 6/28/20:
+
+2. java version "14.0.1" 2020-04-14
+
+3.: To compile run cmd lines
+
+> javac JokeServer.java
+> javac JokeClient.java
+> javac JokeClientAdmin.java
+
+I added extra classes but I put them in all the java files that need them
+You shouldn't have to run in that order but thats the only order I confirmed to work
+
+4. How to run:
+
+> java JokeServer
+run server on primary port 4545
+
+> java JokeServer <secondary>
+If the literal string "secondary" is inputted as argument the server will run on the secondary port 4546
+
+> java JokeClient
+Run JokeClient and default the server to connect to to localhost on port 4545
+
+> java JokeClient <primaryServerName>
+Run JokeClient and with the server to connect to being the input <primaryServerName> on port 4545
+
+> java JokeClient <primaryServerName> <secondaryServerName>
+Run JokeClient and with the primary server to connect to being the input <primaryServerName> on port 4545
+And the secondary server being the input <secondaryServerName> on port 4546
+
+> java JokeClientAdmin
+Run JokeClientAdmin and default the server to connect to to localhost on port 5050
+
+> java JokeClientAdmin <primaryServerName>
+Run JokeClientAdmin and with the server to connect to being the input <primaryServerName> on port 5050
+
+> java JokeClientAdmin <primaryServerName> <secondaryServerName>
+Run JokeClientAdmin and with the primary server to connect to being the input <primaryServerName> on port 5050
+And the secondary server being the input <secondaryServerName> on port 5051
+
+
+5. File needed to run
+
+ Required
+ a. JokeServer.java
+ b. JokeClient.java
+
+ Optional to switch modes between Joke and Proverb
+ JokeClientAdmin.java
+
+----------------------------------------------------------*/
+public class JokeClientAdmin {
+    public static Server currentServer;
+    public static Server primaryServer;
+    public static Server secondaryServer;
+    public static void main (String args[]) {
+        String primaryServerName;
+        String secondaryServerName = null;
+
+        // check for cmd line arguments
+        // if none default to localhost
+        if (args.length < 1) {
+            primaryServerName = "localhost";
+        } else { // if cmd line arg exists, use it for server name
+            primaryServerName = args[0];
+            if(args.length == 2) secondaryServerName = args[1];
+        }
+        
+        //set primary server
+        primaryServer = new Server(primaryServerName, 5050);
+
+        //current server defaults to primary
+        currentServer = primaryServer;
+
+        System.out.println("Michael Crabtree's Joke Admin Client, 1.8.\n");
+        System.out.println("Server one: " + primaryServer.getName() + ", port " + primaryServer.getPort());
+
+        //if second server was inputted set it
+        if(secondaryServerName != null) {
+            secondaryServer = new Server(secondaryServerName, 5051);
+            System.out.println("Server two: " + secondaryServer.getName() + ", port " + secondaryServer.getPort());
+        }
+        System.out.println("Now communicating with: " + currentServer.getName() + ", port " + currentServer.getPort());
+
+        //set up buffer for reading input
+        BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
+
+        try {
+            //first get the current state of the server mode
+            sendInputToServer("GET");
+            String input;
+            //loop infinitely until quit input is entered
+            while(true) {
+                // output instruction for user
+                System.out.print("Press enter to change the mode of the Server: <type 'quit' to exit> ");
+                System.out.flush();
+                // wait for user to press enter
+                input = inputReader.readLine();
+                //immediately leave loop on quit
+                if(input == null || input.equals("quit")) break;
+                //toggle server if there is a second server and the command is "s"
+                if(secondaryServerName != null && input.equals("s")) {
+                    toggleServer();
+                    //get state of new server after change
+                    sendInputToServer("GET");
+                } else {
+                    // change the state of the server mode
+                    sendInputToServer("PUT");
+                } 
+            }
+
+            System.out.println ("\nCancelled by user request.");
+        } catch (IOException e) {
+            //print error
+            e.printStackTrace();
+        }
+    }
+
+   // change to the other server name
+   public static void toggleServer() {
+    if(currentServer == primaryServer) {
+        currentServer = secondaryServer;
+        System.out.println("Now communicating with: " + currentServer.getName() + ", port " + currentServer.getPort());
+    } else {
+        currentServer = primaryServer;
+        System.out.println("Now communicating with: " + currentServer.getName() + ", port " + currentServer.getPort());
+    }
+}
+
+    /*
+     *   @param method string to send to server that determines whether the server will get the cuurent state or change the state
+     *   @param address location of our server
+    */
+    static void sendInputToServer (String method) {
+        Socket socket;
+        BufferedReader fromServer;
+        PrintStream toServer;
+        String result;
+
+        try{
+            //open socket to serverName at port 5050
+            socket = new Socket(currentServer.getName(), currentServer.getPort());
+
+            // set up buffers to get and send data to server 
+            fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            toServer = new PrintStream(socket.getOutputStream());
+
+            // send command to server of which action to run
+            toServer.println(method);
+            toServer.flush();
+
+            // print server result
+            result = fromServer.readLine();
+            if (result != null) {
+                System.out.println(result);
+            }
+            // close socket after done with getting input
+            socket.close();
+        } catch (IOException e) {
+            System.out.println ("Socket error.");
+            e.printStackTrace();
+        }
+    }
+}
+
+    // class to store server data to make it easy to switch servers
+    class Server {
+        // server name
+        private String name;
+        // server port number
+        private Integer port;
+
+        //set uuid on construct
+        public Server(String name, Integer port) {
+            this.name = name;
+            this.port = port;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public Integer getPort() {
+            return port;
+        }
+    }
